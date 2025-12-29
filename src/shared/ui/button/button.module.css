@@ -1,0 +1,16 @@
+.btn{
+    width: 40%;
+    background-color:#64c2d0 ;
+    color:rgba(38, 33, 33, 0.99);
+    font-size:50px;
+    font-weight: bold;
+    font-family: Calibri;
+    border-radius: 15px;
+
+}
+.btn:hover{
+    cursor: pointer;
+}
+.disabled{
+    opacity: 0.5;
+}

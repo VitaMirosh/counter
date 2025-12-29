@@ -1,0 +1,9 @@
+
+.app {
+    background-color: rgba(38, 33, 33, 0.99);
+    min-height: 100vh;
+    min-width: 100vw;
+    justify-items: center;
+    align-content: center;
+
+}

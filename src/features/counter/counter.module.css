@@ -1,0 +1,40 @@
+
+.counter {
+
+    width: 500px;
+    height: 400px;
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+    border: 4px solid #64c2d0;
+    border-radius: 15px;
+    user-select: none;
+}
+
+.num {
+    width: 90%;
+    height: 50%;
+    background-color: #64c2d0;
+    border-radius: 15px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 90px;
+    font-weight: bold;
+    font-family: Calibri;
+    color: rgba(38, 33, 33, 0.99);
+}
+
+.groupBtn{
+    width: 90%;
+    height: 40%;
+    border-radius: 15px;
+    border: 4px solid #64c2d0;
+    margin:20px 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
