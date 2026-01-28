@@ -6,7 +6,7 @@ type ButtonType = {
   className?: string,
   name: string
   onClick: () => void
-  disabled: boolean
+  disabled?:boolean
   children?: ReactNode
 }
 

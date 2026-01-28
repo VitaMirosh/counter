@@ -1,5 +1,8 @@
 
 .app {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: rgba(38, 33, 33, 0.99);
     min-height: 100vh;
     min-width: 100vw;
