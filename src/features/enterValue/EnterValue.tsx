@@ -41,7 +41,7 @@ export const EnterValue = ({
   }
 
   const disabledBtn = (setting.max && setting.min) < 0 || (setting.max == setting.min) || (setting.max < setting.min)
-
+  const className =  (setting.max || setting.min) < 0 || (setting.max == setting.min) || (setting.max < setting.min)
 
   return (
     <>
@@ -49,11 +49,11 @@ export const EnterValue = ({
         <div className={s.input_container}>
           <div className={s.input_group}>
             <p className={s.p}>max value</p>
-            <Input value={setting.max} onChange={handleChangeMaxValue} disabled={disableInput}/>
+            <Input value={setting.max} onChange={handleChangeMaxValue} disabled={disableInput} className={className}/>
           </div>
           <div className={s.input_group}>
             <p className={s.p}>start value</p>
-            <Input value={setting.min} onChange={handleChangeStartValue} disabled={disableInput}/>
+            <Input value={setting.min} onChange={handleChangeStartValue} disabled={disableInput} className={className}/>
           </div>
         </div>
 
