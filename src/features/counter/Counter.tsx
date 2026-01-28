@@ -1,32 +1,34 @@
 import {Button} from '../../shared/ui/button/Button.tsx';
-import {useState} from 'react';
 import s from './counter.module.css'
+import type {CounterProps} from '../enterValue/EnterValue.tsx';
 
-const MAX_COUNTER = 5
-const MIN_COUNTER = 0
-export const Counter = () => {
-  const [counter, setCounter] = useState<number>(0);
 
+
+export const Counter = ({counterScreen, setCounterScreen,setting}: CounterProps) => {
 
   const increaseCount = () => {
-      setCounter(counter + 1)
+    if(setting.max > setting.min){
+      setCounterScreen( {...counterScreen, count: counterScreen.count +1})
+    }
   }
 
 
   const resetCount = () => {
-      setCounter(0)
-
+    setCounterScreen({...counterScreen, count:setting.min})
   }
+
+  const disabledBtnIcr = (setting.max  == counterScreen.count)||(setting.max  && setting.min) < 0 || (setting.max  < setting.min) || (setting.max  == setting.min)
+  const disabledBtnDec = (setting.max  && setting.min)< 0 || (setting.max < setting.min) ||(setting.max  == setting.min) || (setting.min  == counterScreen.count)
 
   return (
 
     <>
       <div className={s.counter}>
-        <p className={s.num} style={{color: counter === MAX_COUNTER ? 'red' : ''}}
-        >{counter}</p>
+        <p className={s.num} style={{color: counterScreen.count === setting.max  ? 'red' : ''}}
+        >{counterScreen.message ? counterScreen.message : counterScreen.count}</p>
         <div className={s.groupBtn}>
-          <Button disabled={counter === MAX_COUNTER}  name={'inc'} onClick={increaseCount}/>
-          <Button disabled={counter === MIN_COUNTER} name={'reset'} onClick={resetCount}/>
+          <Button disabled={disabledBtnIcr} name={'inc'} onClick={increaseCount}/>
+          <Button disabled={disabledBtnDec} name={'reset'} onClick={resetCount}/>
         </div>
 
       </div>
