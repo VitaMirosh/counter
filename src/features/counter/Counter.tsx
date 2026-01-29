@@ -16,8 +16,8 @@ export const Counter = ({counterScreen, setCounterScreen, setting}: CounterProps
     setCounterScreen({...counterScreen, count: setting.min})
   }
 
-  const disabledBtnIcr = (setting.max == counterScreen.count) || (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min)
-  const disabledBtnDec = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || (setting.min == counterScreen.count)
+  const disabledBtnIcr = (setting.max == counterScreen.count) || (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || !!counterScreen.message
+  const disabledBtnDec = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || (setting.min == counterScreen.count) || !!counterScreen.message
   const errorText = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min)
 
   return (
