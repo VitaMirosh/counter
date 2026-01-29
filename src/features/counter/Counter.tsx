@@ -3,29 +3,33 @@ import s from './counter.module.css'
 import type {CounterProps} from '../enterValue/EnterValue.tsx';
 
 
-
-export const Counter = ({counterScreen, setCounterScreen,setting}: CounterProps) => {
+export const Counter = ({counterScreen, setCounterScreen, setting}: CounterProps) => {
 
   const increaseCount = () => {
-    if(setting.max > setting.min){
-      setCounterScreen( {...counterScreen, count: counterScreen.count +1})
+    if (setting.max > setting.min) {
+      setCounterScreen({...counterScreen, count: counterScreen.count + 1})
     }
   }
 
 
   const resetCount = () => {
-    setCounterScreen({...counterScreen, count:setting.min})
+    setCounterScreen({...counterScreen, count: setting.min})
   }
 
-  const disabledBtnIcr = (setting.max  == counterScreen.count)||(setting.max  && setting.min) < 0 || (setting.max  < setting.min) || (setting.max  == setting.min)
-  const disabledBtnDec = (setting.max  && setting.min)< 0 || (setting.max < setting.min) ||(setting.max  == setting.min) || (setting.min  == counterScreen.count)
+  const disabledBtnIcr = (setting.max == counterScreen.count) || (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min)
+  const disabledBtnDec = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || (setting.min == counterScreen.count)
+  const errorText = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min)
 
   return (
 
     <>
       <div className={s.counter}>
-        <p className={s.num} style={{color: counterScreen.count === setting.max  ? 'red' : ''}}
-        >{counterScreen.message ? counterScreen.message : counterScreen.count}</p>
+        <p className={counterScreen.message ? s.num
+          : counterScreen.count === setting.max ? s.max
+            : s.number} style={{color: errorText ? 'red' : ''}}>
+          {counterScreen.message ? counterScreen.message
+            : counterScreen.count}
+        </p>
         <div className={s.groupBtn}>
           <Button disabled={disabledBtnIcr} name={'inc'} onClick={increaseCount}/>
           <Button disabled={disabledBtnDec} name={'reset'} onClick={resetCount}/>
