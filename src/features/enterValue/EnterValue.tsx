@@ -1,69 +1,63 @@
 import {type ChangeEvent} from 'react';
 import {Input} from '../../shared/ui/input/Input.tsx';
 import {Button} from '../../shared/ui/button/Button.tsx';
-import type {CountType, MinMaxType} from '../../App.tsx';
 import s from './enter_value.module.css'
+import {useAppDispatch} from '../../app/hooks/useAppDispatch.ts';
+import type {CountType} from '../auth/model/counter-selectors.ts';
+import {
+  disableInputAC,
+  handleChangeMaxValueAC,
+  handleChangeStartValueAC,
+  oncClickSetBtnAC
+} from '../auth/model/counter-reducer.ts';
 
-export type CounterProps = {
-  counterScreen: CountType
-  setCounterScreen: (counterScreen: CountType) => void
-  setting: MinMaxType
-  setSetting: (setting: MinMaxType) => void
+ type Props = {
+  count:CountType
 }
 
-export const EnterValue = ({
-                             setCounterScreen,
-                             setting,
-                             setSetting,
-                             counterScreen
-                           }: CounterProps) => {
-
+export const EnterValue = ({count}: Props) => {
+  const dispatch = useAppDispatch()
   const handleChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setSetting({...setting, max: Number(e.currentTarget.value)})
+    dispatch(handleChangeMaxValueAC({e}))
   };
   const handleChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setSetting({...setting, min: Number(e.currentTarget.value)})
+    dispatch(handleChangeStartValueAC({e}))
   };
 
   const disableInput = () => {
-    if ((setting.max && setting.min) < 0 || (setting.max == setting.min) || (setting.max < setting.min)) {
-      setCounterScreen({...counterScreen, message: 'Incorrect value'});
-    } else {
-      setCounterScreen({...counterScreen, message: 'enter values and press "set"'})
-    }
+    dispatch(disableInputAC());
   }
-  const oncClickSetBtn = () => {
-    if ((setting.max || setting.min > 0) && (setting.min < setting.max)) {
-      setCounterScreen({...counterScreen, count: setting.min, message: ''})
-    } else {
-      setCounterScreen({...counterScreen, message: 'Incorrect value'})
+    const oncClickSetBtn = () => {
+      dispatch(oncClickSetBtnAC())
     }
-  }
 
-  const disabledBtn = (setting.max && setting.min) < 0 || (setting.max == setting.min) || (setting.max < setting.min)
-  const classNameMin = setting.min < 0 || (setting.max == setting.min) || (setting.max < setting.min)
-  const classNameMax =  setting.max < 0 || (setting.max == setting.min) || (setting.max < setting.min)
+    const disabledBtn = (count.max && count.min) < 0 || (count.max == count.min) || (count.max < count.min)
+    const classNameMin = count.min < 0 || (count.max == count.min) || (count.max < count.min)
+    const classNameMax = count.max < 0 || (count.max == count.min) || (count.max < count.min)
 
-  return (
-    <>
-      <div className={s.enter_value}>
-        <div className={s.input_container}>
-          <div className={s.input_group}>
-            <p className={s.p}>max value</p>
-            <Input value={setting.max} onChange={handleChangeMaxValue} disabled={disableInput} className={classNameMax}/>
+    return (
+      <>
+        <div className={s.enter_value}>
+          <div className={s.input_container}>
+            <div className={s.input_group}>
+              <p className={s.p}>max value</p>
+              <Input value={count.max} onChange={handleChangeMaxValue} disabled={disableInput}
+                     className={classNameMax}/>
+            </div>
+            <div className={s.input_group}>
+              <p className={s.p}>start value</p>
+              <Input value={count.min} onChange={handleChangeStartValue} disabled={disableInput}
+                     className={classNameMin}/>
+            </div>
           </div>
-          <div className={s.input_group}>
-            <p className={s.p}>start value</p>
-            <Input value={setting.min} onChange={handleChangeStartValue} disabled={disableInput} className={ classNameMin}/>
+
+          <div className={s.btn}>
+            <Button name={'set'} onClick={oncClickSetBtn} disabled={disabledBtn}/>
           </div>
+
         </div>
 
-        <div className={s.btn}>
-          <Button name={'set'} onClick={oncClickSetBtn} disabled={disabledBtn}/>
-        </div>
+      </>
+    )
+  }
 
-      </div>
-
-    </>
-  )
-}

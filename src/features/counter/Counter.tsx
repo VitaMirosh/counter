@@ -1,34 +1,40 @@
 import {Button} from '../../shared/ui/button/Button.tsx';
 import s from './counter.module.css'
-import type {CounterProps} from '../enterValue/EnterValue.tsx';
+import {useAppDispatch} from '../../app/hooks/useAppDispatch.ts';
+import {increaseCountAC, resetCountAC} from '../auth/model/counter-reducer.ts';
+import type {CountType} from '../auth/model/counter-selectors.ts';
 
 
-export const Counter = ({counterScreen, setCounterScreen, setting}: CounterProps) => {
+type Props={
+ count: CountType
+}
 
+
+export const Counter = ({count}: Props) => {
+
+  const dispatch = useAppDispatch()
   const increaseCount = () => {
-    if (setting.max > setting.min) {
-      setCounterScreen({...counterScreen, count: counterScreen.count + 1})
-    }
+    dispatch(increaseCountAC())
   }
 
 
   const resetCount = () => {
-    setCounterScreen({...counterScreen, count: setting.min})
+    dispatch(resetCountAC())
   }
 
-  const disabledBtnIcr = (setting.max == counterScreen.count) || (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || !!counterScreen.message
-  const disabledBtnDec = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min) || (setting.min == counterScreen.count) || !!counterScreen.message
-  const errorText = (setting.max && setting.min) < 0 || (setting.max < setting.min) || (setting.max == setting.min)
+  const disabledBtnIcr = (count.max == count.count) || (count.max && count.min) < 0 || (count.max < count.min) || (count.max == count.min) || !!count.message
+  const disabledBtnDec = (count.max && count.min) < 0 || (count.max < count.min) || (count.max == count.min) || (count.min == count.count) || !!count.message
+  const errorText = (count.max && count.min) < 0 || (count.max < count.min) || (count.max == count.min)
 
   return (
 
     <>
       <div className={s.counter}>
-        <p className={counterScreen.message ? s.num
-          : counterScreen.count === setting.max ? s.max
+        <p className={count.message ? s.num
+          : count.count === count.max ? s.max
             : s.number} style={{color: errorText ? 'red' : ''}}>
-          {counterScreen.message ? counterScreen.message
-            : counterScreen.count}
+          {count.message ? count.message
+            : count.count}
         </p>
         <div className={s.groupBtn}>
           <Button disabled={disabledBtnIcr} name={'inc'} onClick={increaseCount}/>
